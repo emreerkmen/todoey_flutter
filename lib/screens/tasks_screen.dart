@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:todoey_flutter/widgets/tasks_list.dart';
+
+import 'package:todoey_flutter/screens/add_task_screen.dart';
 
 class TasksScreen extends StatelessWidget {
   @override
@@ -7,7 +10,10 @@ class TasksScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.lightBlueAccent,
       floatingActionButton: FloatingActionButton(
-        onPressed: null,
+        onPressed: () {
+          showModalBottomSheet(
+              context: context, builder: (context) => AddTaskScreen());//(context) => Container()
+        },
         backgroundColor: Colors.lightBlueAccent,
         child: Icon(
           Icons.add,
@@ -65,24 +71,7 @@ class TasksScreen extends StatelessWidget {
                 ),
               ),
               child: Expanded(
-                child: ListView(
-                  children: <Widget>[
-                    ListTile(
-                      title: Text('This is a task'),
-                      trailing: Checkbox(
-                        value: true,
-                        onChanged: (bool) {},
-                      ),
-                    ),
-                    ListTile(
-                      title: Text('This is a taskOne'),
-                      trailing: Checkbox(
-                        value: true,
-                        onChanged: (bool) {},
-                      ),
-                    ),
-                  ],
-                ),
+                child: TasksList(),
               ),
             ),
           ),
