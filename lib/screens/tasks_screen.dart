@@ -1,10 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:todoey_flutter/model/task.dart';
 import 'package:todoey_flutter/widgets/tasks_list.dart';
 
 import 'package:todoey_flutter/screens/add_task_screen.dart';
 
-class TasksScreen extends StatelessWidget {
+class TasksScreen extends StatefulWidget {
+  @override
+  _TasksScreenState createState() => _TasksScreenState();
+}
+
+class _TasksScreenState extends State<TasksScreen> {
+  final List<Task> tasks = [
+    Task(name: 'Done lesson'),
+    Task(name: 'Learn english'),
+    Task(name: 'Speak with girlfriend'),
+    Task(name: 'Improve yourself'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +25,16 @@ class TasksScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
-              context: context, builder: (context) => AddTaskScreen());//(context) => Container()
+            context: context,
+            builder: (context) => AddTaskScreen(
+              addTaskCallback: (newTaskTitle) {
+                setState(() {
+                  tasks.add(Task(name: newTaskTitle));
+                });
+                Navigator.pop(context);
+              },
+            ),
+          ); //(context) => Container()
         },
         backgroundColor: Colors.lightBlueAccent,
         child: Icon(
@@ -53,7 +75,7 @@ class TasksScreen extends StatelessWidget {
                   height: 10.0,
                 ),
                 Text(
-                  '12 tasks',
+                  '${tasks.length} Tasks',
                   style: TextStyle(color: Colors.white, fontSize: 20.0),
                 ),
               ],
@@ -62,7 +84,7 @@ class TasksScreen extends StatelessWidget {
           Expanded(
             child: Container(
               //color: Colors.white,
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              //padding: EdgeInsets.symmetric(horizontal: 50.0),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -70,9 +92,7 @@ class TasksScreen extends StatelessWidget {
                   topRight: Radius.circular(20.0),
                 ),
               ),
-              child: Expanded(
-                child: TasksList(),
-              ),
+              child: TasksList(tasks: tasks),
             ),
           ),
         ],
